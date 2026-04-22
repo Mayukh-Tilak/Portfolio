@@ -495,7 +495,7 @@ export default function Home() {
     const next = splashPoolRef.current.pop()
     const randomAngle = -10 + Math.random() * 4
 
-    setSplash(next)
+    setSplash(next!)
     setAngle(randomAngle)
   }, [])
 
