@@ -11,7 +11,7 @@ import { OrbitControls } from '@react-three/drei'
 // ================= CLOUDS =================
 
 function Clouds() {
-  const meshRef = useRef()
+  const meshRef = useRef<THREE.Mesh>(null!)
   const texture = useLoader(THREE.TextureLoader, '/textures/clouds.png')
 
   useEffect(() => {
@@ -59,7 +59,7 @@ function Scene({ gameState, setGameState, isNight }) {
   const [isHovering, setIsHovering] = useState(false)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
   const INTERACTION_DELAY = 500
-  const tableRef = useRef()
+  const tableRef = useRef<THREE.Mesh>(null!)
   const [topTex, sideTex, frontTex] = useLoader(THREE.TextureLoader, [
     '/textures/crafting_top.png',
     '/textures/crafting_side.png',
@@ -79,8 +79,8 @@ function Scene({ gameState, setGameState, isNight }) {
     }, [topTex, sideTex, frontTex])
   
   // 🔊 CLICK SOUND
-    const clickSound = useRef(null)
-
+    const clickSound = useRef<HTMLAudioElement | null>(null)
+    
     useEffect(() => {
       clickSound.current = new Audio('/sounds/click.mp3')
       clickSound.current.volume = 0.35
@@ -95,7 +95,7 @@ function Scene({ gameState, setGameState, isNight }) {
     }
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMouse({
         x: (e.clientX / window.innerWidth) * 2 - 1,
         y: -(e.clientY / window.innerHeight) * 2 + 1
@@ -187,11 +187,11 @@ function Scene({ gameState, setGameState, isNight }) {
 function CraftingUI({ onClose }) {
   const BARRIER = "/icons/barrier.png"
 
-  const [hoveredItem, setHoveredItem] = useState(null)
+  const [hoveredItem, setHoveredItem] = useState<any>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
-  const hoverSound = useRef(null)
-  const clickSound = useRef(null)
+  const hoverSound = useRef<HTMLAudioElement | null>(null)
+  const clickSound = useRef<HTMLAudioElement | null>(null)
 
   // 🔊 PLAY CLICK (reusable)
   const playClick = () => {
@@ -225,7 +225,7 @@ function CraftingUI({ onClose }) {
   }, [])
 
   useEffect(() => {
-    const handleMove = (e) => {
+    const handleMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY })
     }
 
@@ -235,7 +235,7 @@ function CraftingUI({ onClose }) {
 
   // ✅ ESC now plays click sound
   useEffect(() => {
-    const handleKey = (e) => {
+    const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         playClick()
         onClose()
@@ -440,19 +440,11 @@ export default function Home() {
   const [splash, setSplash] = useState("")
   const [angle, setAngle] = useState(-20)
   const [scale, setScale] = useState(1)
-  const splashRef = useRef(null)
+  const splashRef = useRef<HTMLDivElement>(null!)
   const [chatStep, setChatStep] = useState(0)
-  const splashPoolRef = useRef([])
+  const splashPoolRef = useRef<string[]>([])
   const [phaseIndex, setPhaseIndex] = useState(0)
   const [isNight, setIsNight] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowMessage(true)
-    }, 5000)
-
-    return () => clearTimeout(timer)
-  }, [])
 
 
   useEffect(() => {
@@ -504,7 +496,7 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen relative"
-    style={{ backgroundColor: "#87CEEB" }}
+    style={{ backgroundColor: isNight ? "#05080e" : "#87CEEB" }}
     >
 
       {/* TITLE + SPLASH */}
@@ -575,8 +567,6 @@ export default function Home() {
 
       {/* SCENE */}
       <Canvas camera={{ position: [0, 2, 5], fov: 60 }}>
-        <fog attach="fog" args={['#87CEEB', 30, 140]} />
-        <color attach="background" args={['#87CEEB']} />
         <ambientLight intensity={isNight ? 0.2 : 0.5} />
         <directionalLight
           position={[5, 10, 5]}
