@@ -64,7 +64,7 @@ function Scene({
   const { scene: world } = useGLTF('/models/world.glb')
   const raycaster = useRef(new THREE.Raycaster())
   const [isHovering, setIsHovering] = useState(false)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const mouse = useRef(new THREE.Vector2())
   const INTERACTION_DELAY = 500
   const tableRef = useRef<THREE.Mesh>(null!)
   const [topTex, sideTex, frontTex] = useLoader(THREE.TextureLoader, [
@@ -103,10 +103,10 @@ function Scene({
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMouse({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -(e.clientY / window.innerHeight) * 2 + 1
-      })
+      mouse.current.set(
+        (e.clientX / window.innerWidth) * 2 - 1,
+        -(e.clientY / window.innerHeight) * 2 + 1
+      )
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -118,7 +118,7 @@ function Scene({
   useFrame(() => {
     if (!tableRef.current) return
 
-    raycaster.current.setFromCamera(mouse, camera)
+    raycaster.current.setFromCamera(mouse.current, camera)
     const intersects = raycaster.current.intersectObject(tableRef.current)
 
     setIsHovering(intersects.length > 0)
