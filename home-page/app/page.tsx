@@ -125,7 +125,7 @@ function Scene({
   })
 
   useEffect(() => {
-    const handleRightClick = (e) => {
+    const handleRightClick = (e: MouseEvent) => {
       if (isHovering && gameState === 'idle') {
         e.preventDefault()
         
