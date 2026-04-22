@@ -191,6 +191,14 @@ function Scene({
 
 // ================= UI =================
 
+type Slot = {
+  name: string
+  icon: string
+  x: number
+  y: number
+  rarity: 'common' | 'unlocked' | 'legendary' | 'locked'
+}
+
 function CraftingUI({
   onClose,
 }: {
@@ -198,7 +206,7 @@ function CraftingUI({
 }) {
   const BARRIER = "/icons/barrier.png"
 
-  const [hoveredItem, setHoveredItem] = useState<any>(null)
+  const [hoveredItem, setHoveredItem] = useState<Slot | null>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
   const hoverSound = useRef<HTMLAudioElement | null>(null)
@@ -262,7 +270,7 @@ function CraftingUI({
   const gapX = 10.5
   const gapY = 10.9
 
-  const slots = [
+  const slots: Slot[] = [
     { name: "About Me", icon: "/icons/about.png", x: 0, y: 0, rarity: "unlocked" },
     { name: "Projects", icon: "/icons/projects.png", x: 1, y: 0, rarity: "unlocked" },
     { name: "Experience", icon: "/icons/experience.png", x: 2, y: 0, rarity: "unlocked" },
@@ -394,7 +402,7 @@ function CraftingUI({
           fontFamily: "'Mojangles'",
           fontSize: "22px",
           lineHeight: "1",
-          color: rarityColors[hoveredItem.rarity],
+          color: hoveredItem ? rarityColors[hoveredItem.rarity] : "#fff",
           padding: "5px 6px 2px 6px",
           whiteSpace: "nowrap",
           backgroundColor: "#100010",
