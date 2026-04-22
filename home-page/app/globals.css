@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* ================= ROOT ================= */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* ================= BASE ================= */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================= FONTS ================= */
+
+/* Minecraft Title Font (LOGO STYLE) */
+@font-face {
+  font-family: 'MinecraftTitle';
+  src: url('/fonts/MinecraftTen.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Old Minecraft font (optional) */
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/Minecraftia-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Mojangles (tooltip font) */
+@font-face {
+  font-family: 'Mojangles';
+  src: url('/fonts/Mojangles.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ================= UTIL ================= */
+
+/* Tooltip font */
+.minecraft-font {
+  font-family: 'Mojangles', monospace;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* Force tooltip font */
+.force-mojangles {
+  font-family: 'Mojangles' !important;
+}
+
+/* Title font (Minecraft logo style) */
+.minecraft-title {
+  font-family: 'MinecraftTitle', sans-serif;
+  letter-spacing: 2px;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+
+.minecraft-logo {
+  font-family: 'MinecraftTitle', sans-serif;
+
+  font-size: clamp(70px, 9vw, 160px);
+  color: #ffffff;
+
+  letter-spacing: 3px; /* slightly increased for large size */
+
+  /* 🔥 FULL SHADOW STACK (scaled for bigger logo) */
+  text-shadow:
+    /* outline (thicker) */
+    -6px -6px 0 #000,
+     6px -6px 0 #000,
+    -6px  6px 0 #000,
+     6px  6px 0 #000,
+
+    -6px  0px 0 #000,
+     6px  0px 0 #000,
+     0px -6px 0 #000,
+     0px  6px 0 #000,
+
+    /* extrusion (deeper + smoother) */
+     8px  8px 0 #1a1a1a,
+     10px 10px 0 #151515,
+     12px 12px 0 #101010,
+     14px 14px 0 #0a0a0a,
+
+    /* soft drop shadow */
+     18px 18px 14px rgba(0,0,0,0.55);
+
+  /* Minecraft squish */
+  transform: scaleY(0.88);
+
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+
+.minecraft-splash {
+  font-family: 'Minecraft', monospace;
+
+  font-size: clamp(16px, 2vw, 28px);
+  color: #ffff55; /* Minecraft yellow */
+
+  transform: rotate(-20deg) scale(1.1);
+  transform-origin: center;
+
+  text-shadow:
+    2px 2px 0 #000;
+
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+
+  animation: splashPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes splashPulse {
+  0% { transform: rotate(-20deg) scale(1.05); }
+  50% { transform: rotate(-20deg) scale(1.15); }
+  100% { transform: rotate(-20deg) scale(1.05); }
+}
+
+
+.minecraft-edition {
+  font-family: 'Minecraft', monospace;
+
+  font-size: clamp(18px, 1.8vw, 34px);
+  color: #f0f0f0; /* brighter */
+  font-weight: bold;
+  margin-top: -6px; /* MUCH tighter to logo */
+
+  text-align: center;
+  letter-spacing: 1px;
+
+  /* 🔥 Minecraft-style embossed look */
+  text-shadow:
+    1px 1px 0 #000,
+    0px 2px 0 #555,
+    0px 3px 0 #000;
+
+  transform: scaleY(0.85); /* slightly squished */
+
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
