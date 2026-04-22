@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, useMemo } from 'react'
 import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
 import { createNoise2D } from 'simplex-noise'
-import { OrbitControls } from '@react-three/drei'
 
 
 // ================= CLOUDS =================
@@ -51,7 +50,15 @@ function Clouds() {
 
 // ================= SCENE =================
 
-function Scene({ gameState, setGameState, isNight }) {
+function Scene({
+  gameState,
+  setGameState,
+  isNight,
+}: {
+  gameState: string
+  setGameState: React.Dispatch<React.SetStateAction<string>>
+  isNight: boolean
+}) {
   const { camera } = useThree()
 
   const { scene: world } = useGLTF('/models/world.glb')
@@ -184,7 +191,11 @@ function Scene({ gameState, setGameState, isNight }) {
 
 // ================= UI =================
 
-function CraftingUI({ onClose }) {
+function CraftingUI({
+  onClose,
+}: {
+  onClose: () => void
+}) {
   const BARRIER = "/icons/barrier.png"
 
   const [hoveredItem, setHoveredItem] = useState<any>(null)
